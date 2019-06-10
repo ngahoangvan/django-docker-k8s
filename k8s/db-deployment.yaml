@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+    spec:
+      volumes:
+        - name: db-persistent-storage
+          persistentVolumeClaim:
+            claimName: db-volumeclaim
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: unicharm
+        - name: MYSQL_PASSWORD
+          value: unicharm@!?
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_USER
+          value: unicharm-dev
+        image: mysql:5.7
+        imagePullPolicy: Never
+        name: database
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+          - name: db-persistent-storage
+            mountPath: /var/lib/mysql
+      restartPolicy: Always
+status: {}

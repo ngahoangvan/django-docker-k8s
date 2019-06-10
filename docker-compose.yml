@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  web:
+    image: django_web
+    container_name: backend
+    # command: >
+    #   bash -c "
+    #   python manage.py runserver 0.0.0.0:8000"
+    # volumes:
+    #   - .:/code
+    command: ["./wait-for-it.sh","database:3306","--", "python","manage.py","runserver", "0.0.0.0:8000"]
+    links:
+      - db:db
+    ports:
+      - 3000:8000
+    depends_on:
+      - db
+    restart: always
+    labels:
+      kompose.service.type: LoadBalancer 
+      kompose.image-pull-policy: "Never"
+  db:
+    image: mysql:5.7
+    container_name: database
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3302:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: unicharm
+      MYSQL_USER: unicharm-dev
+      MYSQL_PASSWORD: unicharm@!?
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   ports:
+  #     - 8080:80
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     PMA_HOSTS: db
+  #     PMA_USER: dbuser
+  #     PMA_PASSWORD: user123
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_USER: unicharm-dev
+  #     MYSQL_PASSWORD: unicharm@!?
+  #   labels:
+  #     kompose.service.type: LoadBalancer
