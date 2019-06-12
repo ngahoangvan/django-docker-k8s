@@ -22,7 +22,7 @@ spec:
       volumes:
         - name: volume-code
           hostPath:
-            path: /home/vannga/Documents/django_docker
+            path: /home/vannga/
             type: Directory
       containers:
       - args:
