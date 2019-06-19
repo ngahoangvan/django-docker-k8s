@@ -76,11 +76,12 @@ WSGI_APPLICATION = 'django_docker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'unicharm',
-        'USER': 'unicharm-dev',
-        'HOST': 'db',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'PASSWORD': 'unicharm@!?',
+        'NAME': os.getenv('MYSQL_DATABASE', 'unicharm'),
+        'USER': os.getenv('MYSQL_USER', 'unicharm-dev'),
+        # Or an IP Address that your DB is hosted on
+        'HOST': os.getenv('MYSQL_HOST', 'db'),
+        'PORT': os.getenv('MYSQL_PORT', '3306'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'unicharm@!?'),
     }
 }
 # DATABASES = {

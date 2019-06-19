@@ -7,8 +7,8 @@ services:
     # command: >
     #   bash -c "
     #   python manage.py runserver 0.0.0.0:8000"
-    # volumes:
-    #   - .:/code
+    volumes:
+      - .:/code
     command: ["./wait-for-it.sh","database:3306","--", "python","manage.py","runserver", "0.0.0.0:8000"]
     links:
       - db:db

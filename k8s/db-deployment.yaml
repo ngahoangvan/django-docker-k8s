@@ -22,7 +22,12 @@ spec:
           persistentVolumeClaim:
             claimName: db-volumeclaim
       containers:
-      - env:
+      - image: mysql:5.7
+        imagePullPolicy: Never
+        name: database
+        ports:
+        - containerPort: 3306
+        env:
         - name: MYSQL_DATABASE
           value: unicharm
         - name: MYSQL_PASSWORD
@@ -31,14 +36,9 @@ spec:
           value: root
         - name: MYSQL_USER
           value: unicharm-dev
-        image: mysql:5.7
-        imagePullPolicy: Never
-        name: database
-        ports:
-        - containerPort: 3306
-        resources: {}
         volumeMounts:
           - name: db-persistent-storage
             mountPath: /var/lib/mysql
+        resources: {}
       restartPolicy: Always
 status: {}
